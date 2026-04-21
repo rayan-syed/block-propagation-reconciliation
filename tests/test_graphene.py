@@ -40,3 +40,16 @@ def test_graphene_with_partial_overlap():
     assert result["block_size"] == 100
     assert result["mempool_size"] == 480
     assert result["bytes_sent"] > 0
+
+
+def test_graphene_fixed_a_override():
+    block = set(range(100))
+    mempool = set(range(500))
+
+    protocol = GrapheneProtocol(fixed_a=4)
+    result = protocol.run(block, mempool)
+
+    assert result["protocol"] == "graphene"
+    assert result["a"] == 4
+    assert result["fp_rate"] == 4 / (500 - 100)
+    assert result["success"]

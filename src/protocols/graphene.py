@@ -12,18 +12,21 @@ class GrapheneProtocol:
         iblt_factor=12,
         delta=0.5,
         max_search_a=64,
+        fixed_a=None,
     ):
         # cell_size = bytes per IBLT cell (matches common Graphene-style accounting)
         # iblt_hashes = number of IBLT hash functions
         # iblt_factor = conservative sizing factor for our simplified IBLT
         # delta = slack so we size for a* = (1 + delta) a
         # max_search_a = max a value to search over
+        # fixed_a = optional override for Graphene-only analysis experiments
 
         self.cell_size = cell_size
         self.iblt_hashes = iblt_hashes
         self.iblt_factor = iblt_factor
         self.delta = delta
         self.max_search_a = max_search_a
+        self.fixed_a = fixed_a
 
     def _bloom_bytes(self, n, fp_rate):
         bits = -n * math.log(fp_rate) / (math.log(2) ** 2)
@@ -44,8 +47,13 @@ class GrapheneProtocol:
         if outside <= 0:
             return 1, 0.01, self._iblt_cells(1)
 
-        best = None
+        # override for analysis experiments
+        if self.fixed_a is not None:
+            a = min(max(1, self.fixed_a), outside)
+            fp_rate = a / outside
+            return a, fp_rate, self._iblt_cells(a)
 
+        best = None
         max_a = min(self.max_search_a, outside)
 
         for a in range(1, max_a + 1):
