@@ -1,0 +1,43 @@
+output_dir: results/sample_run
+trials: 3
+seed: 42
+
+protocols:
+  - name: full_block
+    tx_size: 250
+
+  - name: compact_block
+    tx_size: 250
+    short_id_size: 6
+    header_size: 80
+    nonce_size: 8
+    prefilled: 1
+
+  - name: graphene
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+experiments:
+  - name: overlap_sweep
+    mode: overlap
+    group_by: overlap
+    block_size: 100
+    mempool_size: 200
+    values: [0.0, 0.5, 1.0]
+
+  - name: block_size_sweep
+    mode: block_size
+    group_by: block_size
+    overlap: 1.0
+    mempool_factor: 5
+    values: [50, 100, 200, 500, 1000]
+
+  - name: mempool_size_sweep
+    mode: mempool_size
+    group_by: mempool_size
+    block_size: 100
+    overlap: 1.0
+    values: [100, 200, 500, 1000, 2000]
