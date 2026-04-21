@@ -3,9 +3,8 @@ from src.structures.iblt import IBLT
 
 def test_simple_recovery():
     A = set(range(100))
-    B = set(range(80))  # missing 20 elements
+    B = set(range(80))
 
-    # create shared seeds
     seeds = [1, 2, 3]
 
     iblt_A = IBLT(size=200, seeds=seeds)

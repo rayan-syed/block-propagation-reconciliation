@@ -1,4 +1,4 @@
-import random
+from src.core.hash_utils import stable_hash
 
 
 class IBLT:
@@ -14,12 +14,12 @@ class IBLT:
 
         # ensure same hash functions when needed
         if seeds is None:
-            self.seeds = [random.randint(0, 10**9) for _ in range(k)]
+            self.seeds = list(range(k))
         else:
             self.seeds = seeds
 
     def _hash(self, x, seed):
-        return hash((x, seed)) % self.size
+        return stable_hash(x, seed, self.size)
 
     def add(self, x):
         for seed in self.seeds:

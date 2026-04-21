@@ -1,9 +1,9 @@
 import math
-import random
+from src.core.hash_utils import stable_hash
 
 
 class BloomFilter:
-    def __init__(self, n, fp_rate):
+    def __init__(self, n, fp_rate, seeds=None):
         # n = expected number of elements
         # fp_rate = desired false positive rate
 
@@ -11,19 +11,22 @@ class BloomFilter:
         self.fp_rate = fp_rate
 
         # compute size (bits)
-        self.m = int(-n * math.log(fp_rate) / (math.log(2) ** 2))
+        self.m = max(1, int(-n * math.log(fp_rate) / (math.log(2) ** 2)))
 
         # number of hash functions
-        self.k = int((self.m / n) * math.log(2))
+        self.k = max(1, int((self.m / n) * math.log(2)))
 
         # bit array
         self.bits = [0] * self.m
 
-        # random seeds for hash functions
-        self.seeds = [random.randint(0, 10**9) for _ in range(self.k)]
+        # hash seeds
+        if seeds is None:
+            self.seeds = list(range(self.k))
+        else:
+            self.seeds = seeds
 
     def _hash(self, x, seed):
-        return hash((x, seed)) % self.m
+        return stable_hash(x, seed, self.m)
 
     def add(self, x):
         for seed in self.seeds:
