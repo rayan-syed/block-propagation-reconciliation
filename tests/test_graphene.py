@@ -19,7 +19,7 @@ def test_graphene_smaller_than_full_block():
     block = set(range(100))
     mempool = set(range(500))
 
-    protocol = GrapheneProtocol(tx_size=8)
+    protocol = GrapheneProtocol()
     result = protocol.run(block, mempool)
 
     full_block_bytes = 100 * 8

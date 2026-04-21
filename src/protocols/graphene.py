@@ -7,21 +7,18 @@ from src.structures.iblt import IBLT
 class GrapheneProtocol:
     def __init__(
         self,
-        tx_size=8,
         cell_size=12,
         iblt_hashes=3,
         iblt_factor=12,
         delta=0.5,
         max_search_a=64,
     ):
-        # tx_size = bytes per txid in our simulation
         # cell_size = bytes per IBLT cell (matches common Graphene-style accounting)
         # iblt_hashes = number of IBLT hash functions
         # iblt_factor = conservative sizing factor for our simplified IBLT
         # delta = slack so we size for a* = (1 + delta) a
         # max_search_a = max a value to search over
 
-        self.tx_size = tx_size
         self.cell_size = cell_size
         self.iblt_hashes = iblt_hashes
         self.iblt_factor = iblt_factor
