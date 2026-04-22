@@ -5,6 +5,7 @@ import yaml
 import pandas as pd
 
 from src.experiments.sweeps import sweep
+from src.experiments.plotting import plot_experiment
 from src.protocols.full_block import FullBlockProtocol
 from src.protocols.compact_block import CompactBlockProtocol
 from src.protocols.graphene import GrapheneProtocol
@@ -150,6 +151,16 @@ def main():
     merged.to_csv(merged_path, index=False)
 
     print(f"\nSaved: {merged_path}")
+
+    fig_dir = os.path.join(output_dir, "figures")
+    os.makedirs(fig_dir, exist_ok=True)
+
+    for experiment in cfg["experiments"]:
+        experiment_name = experiment["name"]
+        x_col = experiment["group_by"]
+
+        exp_df = merged[merged["experiment"] == experiment_name]
+        plot_experiment(exp_df, experiment_name, x_col, fig_dir)
 
 
 if __name__ == "__main__":

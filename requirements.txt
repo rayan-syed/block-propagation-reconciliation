@@ -1,4 +1,5 @@
 pandas
+matplotlib
 PyYAML
 pytest
 black
