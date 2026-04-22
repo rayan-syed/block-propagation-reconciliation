@@ -35,6 +35,7 @@ def build_protocol(spec):
             iblt_factor=spec.get("iblt_factor", 12),
             delta=spec.get("delta", 0.5),
             max_search_a=spec.get("max_search_a", 64),
+            fixed_a=spec.get("fixed_a", None),
         )
 
     if name == "graphene_fallback":
@@ -46,6 +47,7 @@ def build_protocol(spec):
             iblt_factor=spec.get("iblt_factor", 12),
             delta=spec.get("delta", 0.5),
             max_search_a=spec.get("max_search_a", 64),
+            fixed_a=spec.get("fixed_a", None),
         )
 
     raise ValueError(f"unknown protocol: {name}")
@@ -110,6 +112,20 @@ def expand_experiment(experiment):
     else:
         raise ValueError(f"unknown experiment mode: {mode}")
 
+    # optional per-config protocol parameter sweep such as fixed_a
+    extra_sweep_keys = [
+        k for k, v in experiment.items() if isinstance(v, list) and k not in ["values"]
+    ]
+
+    for key in extra_sweep_keys:
+        new_configs = []
+        for config in configs:
+            for value in experiment[key]:
+                c = dict(config)
+                c[key] = value
+                new_configs.append(c)
+        configs = new_configs
+
     return configs
 
 
@@ -130,7 +146,6 @@ def main():
     all_results = []
 
     for protocol_spec in cfg["protocols"]:
-        protocol = build_protocol(protocol_spec)
         protocol_name = protocol_spec["name"]
 
         for experiment in cfg["experiments"]:
@@ -138,7 +153,8 @@ def main():
             configs = expand_experiment(experiment)
 
             df = sweep(
-                protocol=protocol,
+                protocol_builder=build_protocol,
+                protocol_spec=protocol_spec,
                 configs=configs,
                 trials=trials,
                 generator=generate_sender_receiver_sets,

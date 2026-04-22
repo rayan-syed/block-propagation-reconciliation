@@ -1,0 +1,20 @@
+output_dir: results/graphene_fixed_a
+trials: 20
+seed: 42
+
+protocols:
+  - name: graphene
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+experiments:
+  - name: graphene_fixed_a_sweep
+    mode: overlap
+    group_by: fixed_a
+    block_size: 100
+    mempool_size: 500
+    values: [1.0]
+    fixed_a: [1, 2, 4, 8, 16, 32, 64]
