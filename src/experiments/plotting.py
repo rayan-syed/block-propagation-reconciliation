@@ -14,6 +14,7 @@ def plot_experiment(df, experiment_name, x_col, output_dir):
         "full_block": "Full Block",
         "compact_block": "Compact Block",
         "graphene": "Graphene",
+        "graphene_fallback": "Graphene + Fallback",
     }
 
     title_map = {
@@ -24,7 +25,12 @@ def plot_experiment(df, experiment_name, x_col, output_dir):
 
     plt.figure(figsize=(7, 5))
 
-    for protocol_name in ["full_block", "compact_block", "graphene"]:
+    for protocol_name in [
+        "full_block",
+        "compact_block",
+        "graphene",
+        "graphene_fallback",
+    ]:
         if protocol_name not in summary["protocol_name"].values:
             continue
 
@@ -64,6 +70,7 @@ def plot_success(df, experiment_name, x_col, output_dir):
         "full_block": "Full Block",
         "compact_block": "Compact Block",
         "graphene": "Graphene",
+        "graphene_fallback": "Graphene + Fallback",
     }
 
     # keep consistent colors with main plot
@@ -71,6 +78,7 @@ def plot_success(df, experiment_name, x_col, output_dir):
         "full_block": "tab:blue",
         "compact_block": "tab:orange",
         "graphene": "tab:green",
+        "graphene_fallback": "tab:red",
     }
 
     # distinct dash patterns
@@ -78,11 +86,17 @@ def plot_success(df, experiment_name, x_col, output_dir):
         "full_block": (2, 1),
         "compact_block": (2, 2),
         "graphene": (2, 3),
+        "graphene_fallback": (2, 4),
     }
 
     plt.figure(figsize=(7, 5))
 
-    for protocol_name in ["full_block", "compact_block", "graphene"]:
+    for protocol_name in [
+        "full_block",
+        "compact_block",
+        "graphene",
+        "graphene_fallback",
+    ]:
         if protocol_name not in summary["protocol_name"].values:
             continue
 

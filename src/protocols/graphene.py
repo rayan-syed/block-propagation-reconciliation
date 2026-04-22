@@ -78,7 +78,7 @@ class GrapheneProtocol:
         _, a, fp_rate, iblt_cells = best
         return a, fp_rate, iblt_cells
 
-    def run(self, block, mempool):
+    def _run_graphene(self, block, mempool):
         block_set = set(block)
         mempool_set = set(mempool)
 
@@ -86,7 +86,7 @@ class GrapheneProtocol:
         m = len(mempool_set)
 
         if n == 0:
-            return {
+            result = {
                 "protocol": "graphene",
                 "bytes_sent": 0,
                 "success": True,
@@ -100,6 +100,7 @@ class GrapheneProtocol:
                 "decoded_pos": 0,
                 "decoded_neg": 0,
             }
+            return result, set(), block_set
 
         a, fp_rate, iblt_cells = self._search_best_a(n, m)
 
@@ -137,7 +138,7 @@ class GrapheneProtocol:
         bloom_bytes = self._bloom_bytes(n, fp_rate)
         iblt_bytes = iblt_cells * self.cell_size
 
-        return {
+        result = {
             "protocol": "graphene",
             "bytes_sent": bloom_bytes + iblt_bytes,
             "success": success and exact,
@@ -151,3 +152,9 @@ class GrapheneProtocol:
             "decoded_pos": len(pos),
             "decoded_neg": len(neg),
         }
+
+        return result, reconstructed, block_set
+
+    def run(self, block, mempool):
+        result, _, _ = self._run_graphene(block, mempool)
+        return result

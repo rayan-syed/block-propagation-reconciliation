@@ -9,6 +9,7 @@ from src.experiments.plotting import plot_experiment, plot_success
 from src.protocols.full_block import FullBlockProtocol
 from src.protocols.compact_block import CompactBlockProtocol
 from src.protocols.graphene import GrapheneProtocol
+from src.protocols.graphene_fallback import GrapheneFallbackProtocol
 from src.core.set_generator import generate_sender_receiver_sets
 
 
@@ -29,6 +30,17 @@ def build_protocol(spec):
 
     if name == "graphene":
         return GrapheneProtocol(
+            cell_size=spec.get("cell_size", 12),
+            iblt_hashes=spec.get("iblt_hashes", 3),
+            iblt_factor=spec.get("iblt_factor", 12),
+            delta=spec.get("delta", 0.5),
+            max_search_a=spec.get("max_search_a", 64),
+        )
+
+    if name == "graphene_fallback":
+        return GrapheneFallbackProtocol(
+            tx_size=spec.get("tx_size", 250),
+            txid_size=spec.get("txid_size", 8),
             cell_size=spec.get("cell_size", 12),
             iblt_hashes=spec.get("iblt_hashes", 3),
             iblt_factor=spec.get("iblt_factor", 12),
