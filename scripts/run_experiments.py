@@ -5,7 +5,7 @@ import yaml
 import pandas as pd
 
 from src.experiments.sweeps import sweep
-from src.experiments.plotting import plot_experiment
+from src.experiments.plotting import plot_experiment, plot_success
 from src.protocols.full_block import FullBlockProtocol
 from src.protocols.compact_block import CompactBlockProtocol
 from src.protocols.graphene import GrapheneProtocol
@@ -161,6 +161,7 @@ def main():
 
         exp_df = merged[merged["experiment"] == experiment_name]
         plot_experiment(exp_df, experiment_name, x_col, fig_dir)
+        plot_success(exp_df, experiment_name, x_col, fig_dir)
 
 
 if __name__ == "__main__":
