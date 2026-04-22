@@ -3,8 +3,12 @@ from src.protocols.full_block import FullBlockProtocol
 from src.core.set_generator import generate_sender_receiver_sets
 
 
+def build_protocol(spec):
+    return FullBlockProtocol(tx_size=spec.get("tx_size", 250))
+
+
 def test_sweep_configs():
-    protocol = FullBlockProtocol(tx_size=250)
+    protocol_spec = {"name": "full_block", "tx_size": 250}
 
     configs = [
         {"block_size": 100, "mempool_size": 200, "overlap": 0.0},
@@ -12,7 +16,8 @@ def test_sweep_configs():
     ]
 
     df = sweep(
-        protocol=protocol,
+        protocol_builder=build_protocol,
+        protocol_spec=protocol_spec,
         configs=configs,
         trials=2,
         generator=generate_sender_receiver_sets,
