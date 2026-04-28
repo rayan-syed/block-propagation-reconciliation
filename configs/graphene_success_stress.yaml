@@ -1,0 +1,35 @@
+output_dir: results/graphene_success_stress
+trials: 50
+seed: 42
+
+protocols:
+  - name: graphene
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+  - name: graphene_fallback
+    tx_size: 500
+    txid_size: 8
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+experiments:
+  - name: partial_overlap_block_size_sweep
+    mode: block_size
+    group_by: block_size
+    overlap: 0.9
+    mempool_factor: 5
+    values: [100, 250, 500, 1000, 2000, 5000]
+
+  - name: high_difference_overlap_sweep
+    mode: overlap
+    group_by: overlap
+    block_size: 1000
+    mempool_size: 5000
+    values: [0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]

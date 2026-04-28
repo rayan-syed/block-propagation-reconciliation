@@ -1,4 +1,4 @@
-output_dir: results/graphene_fixed_a_analysis
+output_dir: results/graphene_iblt_factor_analysis
 trials: 50
 seed: 42
 
@@ -6,15 +6,14 @@ protocols:
   - name: graphene
     cell_size: 12
     iblt_hashes: 3
-    iblt_factor: 12
     delta: 0.5
     max_search_a: 64
 
 experiments:
-  - name: fixed_a_sweep
+  - name: iblt_factor_sweep
     mode: overlap
-    group_by: fixed_a
+    group_by: iblt_factor
     block_size: 500
     mempool_size: 2500
     values: [1.0]
-    fixed_a: [1, 2, 4, 8, 16, 32, 64]
+    iblt_factor: [4, 8, 12, 16, 24]
