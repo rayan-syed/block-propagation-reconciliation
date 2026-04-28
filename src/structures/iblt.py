@@ -50,7 +50,14 @@ class IBLT:
 
         stack = [i for i in range(self.size) if abs(self.count[i]) == 1]
 
+        max_steps = 10 * self.size * self.k
+        steps = 0
+
         while stack:
+            steps += 1
+            if steps > max_steps:
+                return False, pos, neg
+
             i = stack.pop()
 
             if self.count[i] == 0:
