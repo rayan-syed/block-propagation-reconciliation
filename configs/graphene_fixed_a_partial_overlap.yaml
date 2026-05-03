@@ -1,0 +1,21 @@
+output_dir: results/graphene_fixed_a_partial_overlap
+trials: 100
+seed: 42
+
+protocols:
+  - name: graphene
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+experiments:
+  - name: fixed_a_partial_overlap
+    mode: overlap
+    group_by: fixed_a
+    block_size: 500
+    mempool_size: 2500
+    values: [0.98]
+
+    fixed_a: [1, 2, 3, 4, 5, 6, 8, 10, 16, 32, 64]
