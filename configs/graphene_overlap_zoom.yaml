@@ -1,0 +1,20 @@
+output_dir: results/overlap_zoom
+trials: 100
+seed: 42
+
+protocols:
+  - name: graphene
+    cell_size: 12
+    iblt_hashes: 3
+    iblt_factor: 12
+    delta: 0.5
+    max_search_a: 64
+
+experiments:
+  - name: overlap_zoom
+    mode: overlap
+    group_by: overlap
+    block_size: 500
+    mempool_size: 2500
+
+    values: [ 0.90, 0.92, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1.0]
